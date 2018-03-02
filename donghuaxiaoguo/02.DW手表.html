@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>#myCanvas{margin:0 35%;}</style>
+</head>
+<body>
+   <canvas id="myCanvas" width="500" height="500">此浏览器不支持Canvas</canvas>
+   <script>
+    //  绘制一个DW手表：
+    //  1.获取画笔，去绘制
+    var cas = document.getElementById('myCanvas').getContext('2d');
+    //  3.setInterval（），使手表动起来
+    drawClock()
+    setInterval(function(){
+        drawClock()
+    },1000)
+    function drawClock(){
+    // 清屏操作
+    cas.clearRect(0,0,500,500)
+    //  2.绘制手表
+    //    2.1绘制表盘
+      cas.beginPath()
+      cas.arc(250,250,200,0,Math.PI*2)
+      cas.closePath()
+      cas.lineWidth=8
+      cas.stroke()
+    //    2.2绘制刻度
+    //      2.2.1绘制时针刻度
+      for(var i=0;i<12;i++){
+         cas.save()//save()是用来保存当前状态的
+         cas.translate(250,250)
+         cas.rotate(i*Math.PI/6)
+         cas.beginPath()
+         cas.moveTo(0,-200)
+         cas.lineTo(0,-175)
+         cas.closePath()
+         cas.lineWidth=5;
+         cas.stroke()
+         cas.restore()//restore()是用来调取我们上一次保存的状态。 
+      }
+    //      2.2.2绘制分针刻度
+    for(var i=0;i<60;i++){
+         cas.save()//save()是用来保存当前状态的
+         cas.translate(250,250)
+         cas.rotate(i*Math.PI/30)
+         cas.beginPath()
+         cas.moveTo(0,-200)
+         cas.lineTo(0,-185)
+         cas.closePath()
+         cas.lineWidth=3;
+         cas.stroke()
+         cas.restore()//restore()是用来调取我们上一次保存的状态。 
+      }
+    //    2.3获取世界时间，包括时、分、秒
+    var now = new Date(),
+        hour24 = now.getHours(),
+        minute = now.getMinutes(),
+        second = now.getSeconds();
+    var hour = hour24+minute/60,
+        hour = hour>12?hour-12:hour;    
+    // console.log(now)
+    // console.log(minute)
+    // console.log(second)
+    // console.log(hour)    
+    //    2.4绘制指针
+    //      2.4.1绘制时针
+        cas.save()
+        cas.translate(250,250)
+        cas.rotate(hour*Math.PI/6)
+        cas.beginPath()
+        cas.moveTo(0,10)
+        cas.lineTo(0,-120)
+        //  cas.closePath()
+        cas.lineWidth=5;
+        cas.lineCap="round"
+        cas.stroke()
+        cas.restore()
+    //      2.4.2绘制分针
+        cas.save()
+        cas.translate(250,250)
+        cas.rotate(minute*Math.PI/30)
+        cas.beginPath()
+        cas.moveTo(0,15)
+        cas.lineTo(0,-140)
+        //  cas.closePath()
+        cas.lineWidth=3;
+        cas.lineCap="round"
+        cas.stroke()
+        cas.restore()
+    //      2.4.3绘制秒针
+        cas.save()
+        cas.translate(250,250)
+        cas.rotate(second*Math.PI/30)
+        cas.beginPath()
+        cas.moveTo(0,18)
+        cas.lineTo(0,-150)
+        //  cas.closePath()
+        cas.lineWidth=1;
+        cas.strokeStyle="blue"
+        cas.stroke()
+        
+    //      2.4.4绘制秒针装饰圆点
+        cas.beginPath()
+        cas.arc(0,-135,5,0,Math.PI*2)
+        cas.closePath()
+        cas.fillStyle='#fff'
+        cas.fill()
+        cas.strokeStyle="#00f"
+        cas.stroke()
+        
+    //      2.4.5表盘装饰圆点
+        cas.beginPath()
+        cas.arc(0,0,5,0,Math.PI*2)
+        cas.closePath()
+        cas.fillStyle='#fff'
+        cas.fill()
+        cas.strokeStyle="#00f"
+        cas.stroke()
+        cas.restore()
+     //      2.4.6手表商标
+        cas.font="20px Yahei"
+        cas.fillText('Daniel Wellington',167,150)       
+    }
+    
+
+
+   </script> 
+</body>
+</html>

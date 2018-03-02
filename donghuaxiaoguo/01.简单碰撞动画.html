@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+   <canvas id="myCanvas" width="400" height="300" style="border:1px solid">此浏览器不支持Canvas</canvas> 
+<script>
+// 绘制一个简单动画：
+   var cas = document.getElementById('myCanvas').getContext('2d');
+// 1.绘制一个红色矩形
+// 2.矩形运动状态加以限制
+// 3.让矩形动起来。setInterval（）
+   var x=100,//矩形的初始状态
+       y=100,
+       w=20,//矩形的宽高
+       h=20,
+       mx=1,//1右0左
+       my=1,//1下0上
+       v=1,//速度为1
+       cw=400,//画布的宽和高
+       ch=300;
+   function move(cas){
+     //如何清除画面中的残余
+     cas.clearRect(0,0,cw,ch)
+     cas.fillStyle="red"
+     cas.fillRect(x,y,w,h)
+     //对矩形的x轴y轴移动加以限制
+    //  x轴：
+     if(mx==1){//矩形向右移动
+       x=x+v;
+       if(x>=cw-w){
+         mx=0
+       } 
+     }else{//矩形向左移动
+       x=x-v;
+       if(x<=0){
+         mx=1
+       } 
+     }
+    //  y轴：
+     if(my==1){//矩形向下移动
+       y=y+v;
+       if(y>=ch-h){
+         my=0
+       } 
+     }else{//矩形向上移动
+       y=y-v;
+       if(y<=0){
+         my=1
+       } 
+     }
+   }
+   setInterval(function(){
+       move(cas)
+   },1)
+
+
+
+</script>  
+</body>
+</html>
